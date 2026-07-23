@@ -1,13 +1,24 @@
 [gd_scene format=3 uid="uid://bg6eue7qxc6ly"]
 
 [ext_resource type="Script" uid="uid://cqt81i5ug43hh" path="res://scenes/player.gd" id="1_5t4e2"]
+[ext_resource type="Script" uid="uid://b0fc5txyrnuot" path="res://scenes/camera_3d.gd" id="2_5t4e2"]
 [ext_resource type="Texture2D" uid="uid://0i4diomwndcy" path="res://assets/textures/pixelvap.png" id="2_noarx"]
+
+[sub_resource type="Environment" id="Environment_xvgsr"]
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.4, 0.5254902, 0.8, 1)
+fog_light_energy = 0.5
+fog_density = 1.0
+fog_depth_curve = 0.659754
+fog_depth_end = 30.0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ns6u7"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_jh20u"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a202f"]
+transparency = 1
 albedo_texture = ExtResource("2_noarx")
 texture_filter = 0
 
@@ -21,24 +32,34 @@ texture_filter = 0
 
 [node name="Node3D" type="Node3D" unique_id=537479715]
 
-[node name="GlobalIllumination" type="DirectionalLight3D" parent="." unique_id=1098509566]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 4, 0)
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=1788092296]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 8.329697, 0)
+light_energy = 7.316
+shadow_enabled = true
+spot_range = 13.5906315
+spot_angle = 53.437496
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=2131863660]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.60116005, 0)
 script = ExtResource("1_5t4e2")
 
 [node name="Camera3D" type="Camera3D" parent="Player" unique_id=145255474]
-transform = Transform3D(1, 0, 0, 0, 0.9377428, 0.3473304, 0, -0.3473304, 0.93774277, 0, 1.4323124, 1.8325288)
+transform = Transform3D(1, 0, 0, 0, 0.9659257, 0.25881898, 0, -0.258819, 0.96592563, 0, 1.4323124, 1.8325288)
+environment = SubResource("Environment_xvgsr")
+far = 30.0
+script = ExtResource("2_5t4e2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=1085723880]
 transform = Transform3D(0.455, 0, 0, 0, 0.455, 0, 0, 0, 0.455, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_ns6u7")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player" unique_id=862342063]
-transform = Transform3D(1, 0, 0, 0, 0.93019825, 0.36705822, 0, -0.36705822, 0.93019825, 0.15551913, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.96592605, 0.2588191, 0, -0.2588191, 0.96592605, 0.15551913, 0, 0)
 mesh = SubResource("QuadMesh_jh20u")
 surface_material_override/0 = SubResource("StandardMaterial3D_a202f")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Player" unique_id=1300902368]
+transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 0.7199607, 2.6869297)
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=311880236]
 
@@ -46,7 +67,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_a202f")
 shape = SubResource("WorldBoundaryShape3D_ns6u7")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1512785074]
-transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -0.010304451, 0, 0.008646488)
 mesh = SubResource("PlaneMesh_4qghb")
 
 [node name="Platform" type="StaticBody3D" parent="." unique_id=1470580859]
@@ -56,4 +77,49 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5811727, -2.2332451)
 shape = SubResource("BoxShape3D_ns6u7")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Platform" unique_id=2135792901]
+mesh = SubResource("BoxMesh_bnm1g")
+
+[node name="Platform" type="StaticBody3D" parent="Platform" unique_id=979108682]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2751292, 1.1269822, -1.2491188)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Platform" unique_id=5251280]
+shape = SubResource("BoxShape3D_ns6u7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platform/Platform" unique_id=207543650]
+mesh = SubResource("BoxMesh_bnm1g")
+
+[node name="Platform" type="StaticBody3D" parent="Platform/Platform" unique_id=1545137562]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4881724, 1.1269822, 1.0135694)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Platform/Platform" unique_id=509621819]
+shape = SubResource("BoxShape3D_ns6u7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platform/Platform/Platform" unique_id=1625485800]
+mesh = SubResource("BoxMesh_bnm1g")
+
+[node name="Platform" type="StaticBody3D" parent="Platform/Platform/Platform" unique_id=413432265]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.56133664, 1.1269822, 1.647227)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Platform/Platform/Platform" unique_id=2140351865]
+shape = SubResource("BoxShape3D_ns6u7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platform/Platform/Platform/Platform" unique_id=1427870599]
+mesh = SubResource("BoxMesh_bnm1g")
+
+[node name="Platform" type="StaticBody3D" parent="Platform/Platform/Platform/Platform" unique_id=458038504]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.56133664, 0.30385923, 1.6620433)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Platform/Platform/Platform/Platform" unique_id=1020096495]
+shape = SubResource("BoxShape3D_ns6u7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platform/Platform/Platform/Platform/Platform" unique_id=420124373]
+mesh = SubResource("BoxMesh_bnm1g")
+
+[node name="Platform" type="StaticBody3D" parent="Platform/Platform/Platform/Platform/Platform" unique_id=1286665206]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.56133664, 0.30385923, 1.6620433)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Platform/Platform/Platform/Platform/Platform" unique_id=991145074]
+shape = SubResource("BoxShape3D_ns6u7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platform/Platform/Platform/Platform/Platform/Platform" unique_id=1982658824]
 mesh = SubResource("BoxMesh_bnm1g")
